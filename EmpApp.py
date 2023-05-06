@@ -25,23 +25,23 @@ table = 'employee'
 def home():
     return render_template('index.html')
 
-@app.route("/about", methods=['POST'])
+@app.route("/about", methods=['GET', 'POST'])
 def about():
     return render_template('about.html')
 
-@app.route("/hire", methods=['POST'])
+@app.route("/hire", methods=['GET', 'POST'])
 def hire():
     return render_template('hire.html')
 
-@app.route("/info", methods=['POST'])
+@app.route("/info", methods=['GET', 'POST'])
 def info():
     return render_template('info.html')
 
-@app.route("/update", methods=['POST'])
+@app.route("/update", methods=['GET', 'POST'])
 def update():
     return render_template('update.html')
 
-@app.route("/fire", methods=['POST'])
+@app.route("/fire", methods=['GET', 'POST'])
 def fire():
     return render_template('fire.html')
 
