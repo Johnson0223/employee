@@ -20,14 +20,14 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
 
   <!-- bootstrap core css -->
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
 
   <!-- fonts style -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet" />
   <!-- Custom styles for this template -->
-  <link href="css/style.css" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet" />
   <!-- responsive style -->
-  <link href="css/responsive.css" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='css/responsive.css') }}" rel="stylesheet" />
 </head>
 
 <body>
@@ -97,7 +97,7 @@
             <div class="info_logo">
               <a href="index.html">
                 <span>
-                  Maverick
+                  Cryptop
                 </span>
               </a>
             </div>
@@ -106,7 +106,7 @@
             </h5>
             <div>
               <div class="img-box">
-                <img src="images/location.png" width="18px" alt="" />
+                <img src="{{ url_for('static', filename='images/location.png') }}" width="18px" alt="Image" />
               </div>
               <p>
                 Page when looking at its layou
@@ -114,6 +114,7 @@
             </div>
             <div>
               <div class="img-box">
+                <img src="{{ url_for('static', filename='images/phone.png') }}" width="18px" alt="Image" />
                 <img src="images/phone.png" width="18px" alt="" />
               </div>
               <p>
@@ -122,7 +123,7 @@
             </div>
             <div>
               <div class="img-box">
-                <img src="images/envelope.png" width="18px" alt="" />
+                <img src="{{ url_for('static', filename='images/envelope.png') }}" width="18px" alt="" />
               </div>
               <p>
                 demo@gmail.com
@@ -214,9 +215,9 @@
   </section>
   <!-- footer section -->
 
-  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+  <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
   </script>
   <!-- owl carousel script 
     -->

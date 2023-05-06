@@ -12,7 +12,7 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
 
-  <title>Employee Management System</title>
+  <title>Maverick</title>
 
   <!-- slider stylesheet -->
   <!-- slider stylesheet -->
@@ -20,14 +20,14 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
 
   <!-- bootstrap core css -->
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
 
   <!-- fonts style -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet" />
   <!-- Custom styles for this template -->
-  <link href="css/style.css" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet" />
   <!-- responsive style -->
-  <link href="css/responsive.css" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='css/responsive.css') }}" rel="stylesheet" />
 </head>
 
 <body>
@@ -105,7 +105,7 @@
                   </div>
                   <div class="col-md-5">
                     <div class="img-box">
-                      <img src="images/slide-1.png" alt="" />
+                      <img src="{{ url_for('static', filename='images/slide-1.png') }}" alt="Image" />
                     </div>
                   </div>
                 </div>
@@ -132,7 +132,7 @@
                   </div>
                   <div class="col-md-5">
                     <div class="img-box">
-                      <img src="images/slide-1.png" alt="" />
+                      <img src="{{ url_for('static', filename='images/slide-1.png') }}" alt="Image" />
                     </div>
                   </div>
                 </div>
@@ -159,7 +159,7 @@
                   </div>
                   <div class="col-md-5">
                     <div class="img-box">
-                      <img src="images/slide-1.png" alt="" />
+                      <img src="{{ url_for('static', filename='images/slider-1.png') }}" alt="Image" />
                     </div>
                   </div>
                 </div>
@@ -186,7 +186,7 @@
                   </div>
                   <div class="col-md-5">
                     <div class="img-box">
-                      <img src="images/slide-1.png" alt="" />
+                      <img src="{{ url_for('static', filename='images/slider-1.png') }}" alt="Image" />
                     </div>
                   </div>
                 </div>
@@ -213,7 +213,7 @@
                   </div>
                   <div class="col-md-5">
                     <div class="img-box">
-                      <img src="images/slide-1.png" alt="" />
+                      <img src="{{ url_for('static', filename='images/slider-1.png') }}" alt="Image" />
                     </div>
                   </div>
                 </div>
@@ -237,7 +237,7 @@
       </div>
       <div class="box">
         <div class="img-box">
-          <img src="images/about-img.png" alt="">
+          <img src="{{ url_for('static', filename='images/about-img.png') }}" alt="Image" />
         </div>
         <div class="detail-box">
           <p>
@@ -277,10 +277,10 @@
               </h5>
               <div class="btn-box">
                 <a href="">
-                  <img src="images/app-store.png" alt="">
+                  <img src="{{ url_for('static', filename='images/app-store.png') }}" alt="Image" />
                 </a>
                 <a href="">
-                  <img src="images/play-store.png" alt="">
+                  <img src="{{ url_for('static', filename='images/app-store.png') }}" alt="Image" />
                 </a>
               </div>
             </div>
@@ -288,7 +288,7 @@
         </div>
         <div class="col-md-6">
           <div class="img-box">
-            <img src="images/slider-img.png" alt="">
+            <img src="{{ url_for('static', filename='images/slider-img.png') }}" alt="Image" />
           </div>
         </div>
       </div>
@@ -309,7 +309,7 @@
       </div>
       <div class="box">
         <div class="img-box">
-          <img src="images/auto-img.png" alt="">
+          <img src="{{ url_for('static', filename='images/auto-img.png') }}" alt="Image" />
         </div>
         <div class="detail-box">
           <p>
@@ -342,7 +342,7 @@
         <div class="b-1">
           <div class="client_id">
             <div class="img-box">
-              <img src="images/client-1.jpg" alt="">
+              <img src="{{ url_for('static', filename='images/client-1.jpg') }}" alt="Image" />
             </div>
             <div class="name">
               <h5>
@@ -364,7 +364,7 @@
       <div class="box">
         <div class="client_id">
           <div class="img-box">
-            <img src="images/client-2.jpg" alt="">
+            <img src="{{ url_for('static', filename='images/client-2.jpg') }}" alt="Image" />
           </div>
           <div class="name">
             <h5>
@@ -411,7 +411,7 @@
             </h5>
             <div>
               <div class="img-box">
-                <img src="images/location.png" width="18px" alt="" />
+                <img src="{{ url_for('static', filename='images/location.png') }}" width="18px" alt="Image" />
               </div>
               <p>
                 Page when looking at its layou
@@ -419,6 +419,7 @@
             </div>
             <div>
               <div class="img-box">
+                <img src="{{ url_for('static', filename='images/phone.png') }}" width="18px" alt="Image" />
                 <img src="images/phone.png" width="18px" alt="" />
               </div>
               <p>
@@ -427,7 +428,7 @@
             </div>
             <div>
               <div class="img-box">
-                <img src="images/envelope.png" width="18px" alt="" />
+                <img src="{{ url_for('static', filename='images/envelope.png') }}" width="18px" alt="" />
               </div>
               <p>
                 demo@gmail.com
@@ -519,9 +520,9 @@
   </section>
   <!-- footer section -->
 
-  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+  <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
   </script>
   <!-- owl carousel script 
     -->
