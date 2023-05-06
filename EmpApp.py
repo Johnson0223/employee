@@ -29,19 +29,19 @@ def home():
 def about():
     return render_template('about.html')
 
-@app.route("/hire", method=['POST'])
+@app.route("/hire", methods=['POST'])
 def hire():
     return render_template('hire.html')
 
-@app.route("/info", method=['POST'])
+@app.route("/info", methods=['POST'])
 def info():
     return render_template('info.html')
 
-@app.route("/update", method=['POST'])
+@app.route("/update", methods=['POST'])
 def update():
     return render_template('update.html')
 
-@app.route("/fire", method=['POST'])
+@app.route("/fire", methods=['POST'])
 def fire():
     return render_template('fire.html')
 
