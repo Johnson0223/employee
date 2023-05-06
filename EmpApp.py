@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, jsonify, render_template, request
 from pymysql import connections
 import os
 import boto3
@@ -130,21 +130,42 @@ def AddEmp():
     print("all modification done...")
     return js
 
-@app.route('/findemp', methods=['POST'])
-def find_employee():
-    emp_id = request.form['emp_id']
-
-    select_sql = "SELECT * FROM info WHERE emp_id = %s"
+@app.route("/searchEmp", methods=['POST'])
+def searchEmp():
+    emp_id = request.json['emp_id']
+    
+    select_sql = "SELECT * FROM employee WHERE emp_id = %s"
     cursor = db_conn.cursor()
-    cursor.execute(select_sql, (emp_id,))
-    result = cursor.fetchone()
-
-    if result:
-        # Employee found, populate form fields with employee details
-        return render_template('index.html', result=result)
-    else:
-        # Employee not found
-        return render_template('employee_not_found.html')
+    
+    try:
+        cursor.execute(select_sql, (emp_id,))
+        employee = cursor.fetchone()
+        
+        if employee is None:
+            return jsonify({'error': 'Employee not found'})
+        
+        # Extract the employee details from the database result
+        emp_id = employee[0]
+        fname = employee[1]
+        ic = employee[2]
+        email = employee[3]
+        location = employee[4]
+        payscale = employee[5]
+        
+        return jsonify({
+            'emp_id': emp_id,
+            'fname': fname,
+            'ic': ic,
+            'email': email,
+            'location': location,
+            'payscale': payscale
+        })
+    
+    except Exception as e:
+        return jsonify({'error': str(e)})
+    
+    finally:
+        cursor.close()
 
 
 @app.route("/rmvemp", methods=['POST'])
