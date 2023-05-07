@@ -115,6 +115,9 @@
           <label for="emp_image_file">Image</label>
           <input class="form-control" type="file" name="emp_image_file" id="emp_image_file">
         </div>
+        <div class="form-group">
+          <img id="emp_image_preview" src="" alt="Employee Image" style="max-width: 200px;">
+        </div>
         <button type="button" class="btn btn-primary" id="save-btn" style="display: none;">Save</button>
       </div>
     
@@ -286,41 +289,48 @@
       return true;
     }
   
-    document.getElementById("search-btn").addEventListener("click", function() {
-      var empId = document.getElementById("emp_id").value;
-  
-      fetch("/searchEmp", {
-        method: "POST",
-        body: JSON.stringify({ emp_id: empId }),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(data) {
-        if (data.error) {
-          document.getElementById("employee-details").style.display = "none";
-          document.getElementById("error-message").style.display = "block";
-          document.getElementById("save-btn").style.display = "none";
-        } else {
-          document.getElementById("employee-details").style.display = "block";
-          document.getElementById("error-message").style.display = "none";
-          document.getElementById("save-btn").style.display = "block";
-  
-          document.getElementById("fname").value = data.fname;
-          document.getElementById("ic").value = data.ic;
-          document.getElementById("email").value = data.email;
-          document.getElementById("location").value = data.location;
-          document.getElementById("payscale").value = data.payscale;
-          document.getElementById("emp_image_file").src = data.image_url;
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-    });
+  document.getElementById("search-btn").addEventListener("click", function() {
+  var empId = document.getElementById("emp_id").value;
+
+  fetch("/searchEmp", {
+    method: "POST",
+    body: JSON.stringify({ emp_id: empId }),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(data) {
+    if (data.error) {
+      document.getElementById("employee-details").style.display = "none";
+      document.getElementById("error-message").style.display = "block";
+      document.getElementById("save-btn").style.display = "none";
+    } else {
+      document.getElementById("employee-details").style.display = "block";
+      document.getElementById("error-message").style.display = "none";
+      document.getElementById("save-btn").style.display = "block";
+
+      document.getElementById("emp_image_file").value = ""; // Clear the file input value
+
+      // Display the image if it exists
+      if (data.image_url) {
+        var img = document.createElement("img");
+        img.src = data.image_path;
+        img.style.maxWidth = "100%";
+        document.getElementById("emp_image_file").innerHTML = "";
+        document.getElementById("emp_image_file").appendChild(img);
+      } else {
+        // Display a placeholder image if the image doesn't exist
+        document.getElementById("emp_image_file").innerHTML = "No image available";
+      }
+    }
+  })
+  .catch(function(error) {
+    console.log(error);
+  });
+});
 
     document.getElementById("save-btn").addEventListener("click", function() {
       var empId = document.getElementById("emp_id").value;
