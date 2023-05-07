@@ -115,9 +115,6 @@
           <label for="emp_image_file">Image</label>
           <input class="form-control" type="file" name="emp_image_file" id="emp_image_file">
         </div>
-        <div class="form-group">
-          <img id="emp_image_preview" src="" alt="Employee Image" style="max-width: 200px;">
-        </div>
         <button type="button" class="btn btn-primary" id="save-btn" style="display: none;">Save</button>
       </div>
     
@@ -291,40 +288,51 @@
   
   document.getElementById("search-btn").addEventListener("click", function() {
   var empId = document.getElementById("emp_id").value;
-
+  
   fetch("/searchEmp", {
-    method: "POST",
-    body: JSON.stringify({ emp_id: empId }),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-  .then(function(response) {
-    return response.json();
-  })
-  .then(function(data) {
-    if (data.error) {
-      document.getElementById("employee-details").style.display = "none";
-      document.getElementById("error-message").style.display = "block";
-      document.getElementById("save-btn").style.display = "none";
-      console.log(data.error)
-    } else {
-      document.getElementById("employee-details").style.display = "block";
-      document.getElementById("error-message").style.display = "none";
-      document.getElementById("save-btn").style.display = "block";
+  method: "POST",
+  body: JSON.stringify({ emp_id: empId }),
+  headers: {
+    "Content-Type": "application/json"
+  }
+})
+.then(function(response) {
+  return response.json();
+})
+.then(function(data) {
+  if (data.error) {
+    document.getElementById("employee-details").style.display = "none";
+    document.getElementById("error-message").style.display = "block";
+    document.getElementById("save-btn").style.display = "none";
+    console.log(data.error);
+  } else {
+    document.getElementById("employee-details").style.display = "block";
+    document.getElementById("error-message").style.display = "none";
+    document.getElementById("save-btn").style.display = "block";
 
-      document.getElementById("emp_image_file").value = ""; // Clear the file input value
+    document.getElementById("fname").value = data.fname;
+    document.getElementById("ic").value = data.ic;
+    document.getElementById("email").value = data.email;
+    document.getElementById("location").value = data.location;
+    document.getElementById("payscale").value = data.payscale;
 
-      // Display the image if it exists
-      if (data.image_url) {
-        var img = document.createElement("img");
-        img.src = data.image_path;
-        img.style.maxWidth = "100%";
-        document.getElementById("emp_image_file").innerHTML = "";
-        document.getElementById("emp_image_file").appendChild(img);
-      } else {
-        // Display a placeholder image if the image doesn't exist
-        document.getElementById("emp_image_file").innerHTML = "No image available";
+    document.getElementById("emp_image_file").value = ""; // Clear the file input value
+
+    // Set the image file to the "emp_image_file" input
+    if (data.image_path) {
+      fetch(data.image_path)
+        .then(function(response) {
+          return response.blob();
+        })
+        .then(function(blob) {
+          var file = new File([blob], "emp-id-" + data.emp_id + "_image_file.jpg");
+          var filesList = new DataTransfer();
+          filesList.items.add(file);
+          document.getElementById("emp_image_file").files = filesList.files;
+        })
+        .catch(function(error) {
+          console.log("Error loading image:", error);
+        });
       }
     }
   })
