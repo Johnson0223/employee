@@ -116,6 +116,7 @@
           <br>
           <img id="emp_image" src="" width="300">
         </div>
+        <button type="button" class="btn btn-primary" id="save-btn" style="display: none;">Save</button>
       </div>
     
       <div id="error-message" class="alert alert-danger" role="alert" style="display: none;">
@@ -303,9 +304,11 @@
         if (data.error) {
           document.getElementById("employee-details").style.display = "none";
           document.getElementById("error-message").style.display = "block";
+          document.getElementById("save-btn").style.display = "none";
         } else {
           document.getElementById("employee-details").style.display = "block";
           document.getElementById("error-message").style.display = "none";
+          document.getElementById("save-btn").style.display = "block";
   
           document.getElementById("fname").value = data.fname;
           document.getElementById("ic").value = data.ic;
@@ -313,6 +316,43 @@
           document.getElementById("location").value = data.location;
           document.getElementById("payscale").value = data.payscale;
           document.getElementById("emp_image").src = data.emp_image_url;
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    });
+
+    document.getElementById("save-btn").addEventListener("click", function() {
+      var empId = document.getElementById("emp_id").value;
+      var fname = document.getElementById("fname").value;
+      var ic = document.getElementById("ic").value;
+      var email = document.getElementById("email").value;
+      var location = document.getElementById("location").value;
+      var payscale = document.getElementById("payscale").value;
+
+      fetch("/updateEmp", {
+        method: "POST",
+        body: JSON.stringify({
+          emp_id: empId,
+          fname: fname,
+          ic: ic,
+          email: email,
+          location: location,
+          payscale: payscale
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        if (data.status === "success") {
+          alert("Employee data saved successfully!");
+        } else {
+          alert("Error saving employee data");
         }
       })
       .catch(function(error) {
