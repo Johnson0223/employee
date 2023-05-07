@@ -151,6 +151,15 @@ def searchEmp():
         email = employee[3]
         location = employee[4]
         payscale = employee[5]
+        emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
+
+        # Retrieve the image from S3 bucket
+        s3 = boto3.client('s3')
+        try:
+            response = s3.get_object(Bucket=custombucket, Key=emp_image_file_name_in_s3)
+            image_url = response['PresignedUrl']  # Get the pre-signed URL for the image
+        except s3.exceptions.NoSuchKey:
+            image_url = None
         
         return jsonify({
             'emp_id': emp_id,
@@ -158,7 +167,8 @@ def searchEmp():
             'ic': ic,
             'email': email,
             'location': location,
-            'payscale': payscale
+            'payscale': payscale,
+            'image_url': image_url
         })
     
     except Exception as e:
