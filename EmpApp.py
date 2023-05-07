@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, render_template, request
 from pymysql import connections
 import os
+import traceback
 import boto3
 from config import *
 
@@ -138,8 +139,11 @@ def searchEmp():
     cursor = db_conn.cursor()
 
     try:
-        cursor.execute(select_sql, (emp_id,))
-        employee = cursor.fetchone()
+        try:
+            cursor.execute(select_sql, (emp_id,))
+            employee = cursor.fetchone()
+        except Exception as e:
+            print("Error retrieving image from S3:", str(e))
 
         if employee is None:
             print("Employee not found")
@@ -152,19 +156,22 @@ def searchEmp():
         email = employee[3]
         location = employee[4]
         payscale = employee[5]
-        #emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
-        emp_image_file_name_in_s3 = "emp-id-0001_image_file"
+        emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
 
         # Retrieve the image from S3 bucket
         s3 = boto3.resource('s3')
         try:
             print("now trying s3 retrieve")
-            response = s3.get_object(Bucket=custombucket, Key=emp_image_file_name_in_s3)
-            image_data = response['Body'].read()
+            response = s3.Object(custombucket, emp_image_file_name_in_s3)
+            image_data = response.get()['Body'].read()
 
             # Save the image temporarily on the server
             temp_image_filename = "temp_image.jpg"
-            temp_image_path = "employee/static/images" + temp_image_filename  # Replace with the desired temporary image path
+            temp_image_path = "employee/static/images/" + temp_image_filename  # Replace with the desired temporary image path
+
+            # Create the directory if it doesn't exist
+            os.makedirs(os.path.dirname(temp_image_path), exist_ok=True)
+
             with open(temp_image_path, 'wb') as file:
                 file.write(image_data)
 
@@ -180,16 +187,20 @@ def searchEmp():
                 'image_path': temp_image_path
             })
 
-        except s3.exceptions.NoSuchKey:
+        except s3.meta.client.exceptions.NoSuchKey:
             print("Image file not found in S3 bucket.")
             return jsonify({'error': 'Image file not found'})
+
+        except Exception as e:
+            print("Error retrieving image from S3:", str(e))
+            traceback.print_exc()
+            return jsonify({'error': 'Error retrieving image from S3'})
 
     except Exception as e:
         return jsonify({'error': str(e)})
 
     finally:
         cursor.close()
-
 
 @app.route("/updateEmp", methods=['POST'])
 def updateEmp():
