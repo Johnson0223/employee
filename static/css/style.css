@@ -336,11 +336,13 @@ a:focus {
 }
 
 .emp_list th {
+  width: 200px;
   font-size: larger;
   padding-top: 20px;
 }
 
 .emp_list td {
+  width: 200px;
   font-size: large;
   padding-top: 20px;
 }

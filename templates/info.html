@@ -79,13 +79,20 @@
 
   <!-- list section -->
   <section class="hire_section layout_padding">
-    <div class="heading_container">
-      <h2>
-        Employee List
-      </h2>
-    </div>
-    {{ table_html }}
-  </section>
+  <div class="heading_container">
+    <h2>Employee List</h2>
+  </div>
+  <table class="emp_list" id="employee-table">
+    <tr>
+      <th>Employee ID</th>
+      <th>Name</th>
+      <th>IC No</th>
+      <th>Email</th>
+      <th>Address</th>
+      <th>Pay Scale</th>
+    </tr>
+  </table>
+</section>
   <!-- end how section -->
 
   <!-- info section -->
@@ -236,6 +243,43 @@
           items: 3
         }
       }
+    });
+
+    fetch("/employees")
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+      if (data.error) {
+        console.log("Error fetching employee data:", data.error);
+      } else {
+        var table = document.getElementById("employee-table");
+
+        data.forEach(function(employee) {
+          var row = table.insertRow();
+
+          var empIdCell = row.insertCell();
+          empIdCell.textContent = employee.emp_id;
+
+          var nameCell = row.insertCell();
+          nameCell.textContent = employee.fname;
+
+          var icCell = row.insertCell();
+          icCell.textContent = employee.ic;
+
+          var emailCell = row.insertCell();
+          emailCell.textContent = employee.email;
+
+          var addressCell = row.insertCell();
+          addressCell.textContent = employee.location;
+
+          var payscaleCell = row.insertCell();
+          payscaleCell.textContent = employee.payscale;
+        });
+      }
+    })
+    .catch(function(error) {
+      console.log("Error fetching employee data:", error);
     });
   </script>
   <!-- end owl carousel script -->

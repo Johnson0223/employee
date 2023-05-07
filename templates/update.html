@@ -85,40 +85,33 @@
     </div>
     <form>
       <div class="form-group">
-        <label for="emp_id">Employee ID</label>
-        <input class="form-control" type="text" name="emp_id" id="emp_id" placeholder="Enter Employee ID">
+        <input class="form-control" type="text" name="emp_id" id="emp_id" placeholder="Enter Employee ID" style="width: 800px; margin: 20px auto;">
         <button type="button" class="button_design" id="search-btn">Search</button>
       </div>
     
       <div id="employee-details" style="display: none;">
         <div class="form-group">
-          <label for="fname">Full Name</label>
-          <input class="form-control" type="text" name="fname" id="fname">
+          <input class="form-control" type="text" name="fname" id="fname" placeholder="full name" style="width: 800px; margin: 20px auto;">
         </div>
         <div class="form-group">
-          <label for="ic">IC No.</label>
-          <input class="form-control" type="text" name="ic" id="ic">
+          <input class="form-control" type="text" name="ic" id="ic" placeholder="IC No." style="width: 800px; margin: 20px auto;">
         </div>
         <div class="form-group">
-          <label for="email">Email</label>
-          <input class="form-control" type="text" name="email" id="email">
+          <input class="form-control" type="text" name="email" id="email" placeholder="Email" style="width: 800px; margin: 20px auto;">
         </div>
         <div class="form-group">
-          <label for="location">Location</label>
-          <input class="form-control" type="text" name="location" id="location">
+          <input class="form-control" type="text" name="location" id="location" placeholder="Location" style="width: 800px; margin: 20px auto;">
         </div>
         <div class="form-group">
-          <label for="payscale">Pay Scale</label>
-          <input class="form-control" type="text" name="payscale" id="payscale">
+          <input class="form-control" type="text" name="payscale" id="payscale" placeholder="Pay Scale(RM)" style="width: 800px; margin: 20px auto;">
         </div>
         <div class="form-group">
-          <label for="emp_image_file">Image</label>
-          <input class="form-control" type="file" name="emp_image_file" id="emp_image_file">
+          <input class="form-control" type="file" name="emp_image_file" id="emp_image_file" placeholder="Image" style="width: 800px; margin: 20px auto;">
         </div>
-        <button type="button" class="btn btn-primary" id="save-btn" style="display: none;">Save</button>
+        <button type="button" class="button_design" id="save-btn">Save</button>
       </div>
     
-      <div id="error-message" class="alert alert-danger" role="alert" style="display: none;">
+      <div id="error-message" class="alert alert-danger" role="alert" style="display: none; width: 800px; margin: 20px auto;">
         Employee not found.
       </div>
     </form>
@@ -369,6 +362,15 @@
       .then(function(data) {
         if (data.status === "success") {
           alert("Employee data saved successfully!");
+          document.getElementById("employee-details").style.display = "none";
+          document.getElementById("save-btn").style.display = "none";
+          document.getElementById("emp_id").value = "";
+          function scrollToTop() {
+            window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Optional: Smooth scrolling animation
+            });
+          }
           location.reload();
         } else {
           alert("Error saving employee data");

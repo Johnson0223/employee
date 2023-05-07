@@ -53,25 +53,22 @@ def employees():
     cursor.execute(select_sql)
     results = cursor.fetchall()
 
-    s3 = boto3.resource('s3')
+    employees = []
 
-    table_html = "<table class='emp_list'><tr><th>Employee ID</th><th>Name</th><th>IC No</th><th>Primary Skill</th><th>Address</th><th>Pay Scale</th><th>Employee Image</th></tr>"
     for result in results:
-        emp_id = result[0]
-        fname = result[1]
-        ic = result[2]
-        email = result[3]
-        address = result[4]
-        payscale = result[5]
-        emp_image_url = s3.generate_presigned_url('get_object', Params={'Bucket': custombucket, 'Key': 'emp-id-' + str(emp_id) + '_image_file'})
-
-        table_html += "<tr><td>{}</td><td>{}</td><td><img src='{}' width='100'></td></tr>".format(emp_id, fname, ic, email, address, payscale, emp_image_url)
-
-    table_html += "</table>"
+        employee = {
+            'emp_id': result[0],
+            'fname': result[1],
+            'ic': result[2],
+            'email': result[3],
+            'location': result[4],
+            'payscale': result[5]
+        }
+        employees.append(employee)
 
     cursor.close()
 
-    return render_template('info.html', table_html=table_html)
+    return jsonify(employees)
 
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
@@ -129,7 +126,7 @@ def AddEmp():
         cursor.close()
 
     print("all modification done...")
-    return js
+    return render_template('hire.html')
 
 @app.route("/searchEmp", methods=['POST'])
 def searchEmp():
