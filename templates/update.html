@@ -316,6 +316,8 @@
           document.getElementById("location").value = data.location;
           document.getElementById("payscale").value = data.payscale;
           document.getElementById("emp_image").src = data.emp_image_url;
+
+          document.getElementById("emp_id").readOnly = true;
         }
       })
       .catch(function(error) {
