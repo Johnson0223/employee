@@ -87,7 +87,7 @@
       <div class="form-group">
         <label for="emp_id">Employee ID</label>
         <input class="form-control" type="text" name="emp_id" id="emp_id" placeholder="Enter Employee ID">
-        <button type="button" class="btn btn-primary" id="search-btn">Search</button>
+        <button type="button" class="button_design" id="search-btn">Search</button>
       </div>
     
       <div id="employee-details" style="display: none;">
@@ -113,8 +113,7 @@
         </div>
         <div class="form-group">
           <label for="emp_image_file">Image</label>
-          <br>
-          <img id="emp_image" src="" width="300">
+          <input class="form-control" type="file" name="emp_image_file" id="emp_image_file">
         </div>
         <button type="button" class="btn btn-primary" id="save-btn" style="display: none;">Save</button>
       </div>
@@ -144,7 +143,7 @@
             </h5>
             <div>
               <div class="img-box">
-                <img src="images/location.png" width="18px" alt="" />
+                <img src="{{ url_for('static', filename='images/location.png') }}" width="18px" alt="Image" />
               </div>
               <p>
                 Page when looking at its layou
@@ -152,7 +151,7 @@
             </div>
             <div>
               <div class="img-box">
-                <img src="images/phone.png" width="18px" alt="" />
+                <img src="{{ url_for('static', filename='images/phone.png') }}" width="18px" alt="Image" />
               </div>
               <p>
                 +01 1234567890
@@ -160,7 +159,7 @@
             </div>
             <div>
               <div class="img-box">
-                <img src="images/envelope.png" width="18px" alt="" />
+                <img src="{{ url_for('static', filename='images/envelope.png') }}" width="18px" alt="" />
               </div>
               <p>
                 demo@gmail.com
@@ -252,9 +251,9 @@
   </section>
   <!-- footer section -->
 
-  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+  <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
   </script>
   <!-- owl carousel script 
     -->
@@ -315,7 +314,7 @@
           document.getElementById("email").value = data.email;
           document.getElementById("location").value = data.location;
           document.getElementById("payscale").value = data.payscale;
-          document.getElementById("emp_image").src = data.emp_image_url;
+          document.getElementById("emp_image_file").src = data.image_url;
         }
       })
       .catch(function(error) {
@@ -351,6 +350,7 @@
       .then(function(data) {
         if (data.status === "success") {
           alert("Employee data saved successfully!");
+          location.reload();
         } else {
           alert("Error saving employee data");
         }
