@@ -276,13 +276,12 @@ def RmvEmp():
         return "Employee not found"
 
     try:
-        delete_sql = "DELETE * FROM info WHERE emp_id=%s"
-        cursor.execute(delete_sql, (emp_id))
+        delete_sql = "DELETE FROM info WHERE emp_id=%s"
+        cursor.execute(delete_sql, (emp_id,))
         db_conn.commit()
         emp_name = result[1]
 
-        
-        s3.Object(custombucket, emp_image_file_name_in_s3).delete
+        s3.Object(custombucket, emp_image_file_name_in_s3).delete()
     finally:
         cursor.close()
 
