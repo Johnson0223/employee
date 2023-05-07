@@ -134,7 +134,7 @@ def AddEmp():
 def searchEmp():
     emp_id = request.json['emp_id']
     
-    select_sql = "SELECT * FROM employee WHERE emp_id = %s"
+    select_sql = "SELECT * FROM info WHERE emp_id = %s"
     cursor = db_conn.cursor()
     
     try:
@@ -164,6 +164,29 @@ def searchEmp():
     except Exception as e:
         return jsonify({'error': str(e)})
     
+    finally:
+        cursor.close()
+
+@app.route("/updateEmp", methods=['POST'])
+def saveEmp():
+    emp_id = request.form['emp_id']
+    fname = request.form['fname']
+    ic = request.form['ic']
+    email = request.form['email']
+    location = request.form['location']
+    payscale = request.form['payscale']
+
+    update_sql = "UPDATE employee SET fname = %s, ic = %s, email = %s, location = %s, payscale = %s WHERE emp_id = %s"
+    cursor = db_conn.cursor()
+
+    try:
+        cursor.execute(update_sql, (fname, ic, email, location, payscale, emp_id))
+        db_conn.commit()
+        return jsonify({'status': 'success'})
+
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
     finally:
         cursor.close()
 
