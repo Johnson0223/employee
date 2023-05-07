@@ -152,11 +152,13 @@ def searchEmp():
         email = employee[3]
         location = employee[4]
         payscale = employee[5]
-        emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
+        #emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
+        emp_image_file_name_in_s3 = "emp-id-0001_image_file"
 
         # Retrieve the image from S3 bucket
         s3 = boto3.resource('s3')
         try:
+            print("now trying s3 retrieve")
             response = s3.get_object(Bucket=custombucket, Key=emp_image_file_name_in_s3)
             image_data = response['Body'].read()
 
@@ -167,6 +169,7 @@ def searchEmp():
                 file.write(image_data)
 
             # Pass the temporary image path to the HTML input
+            print("successfully retrieve image")
             return jsonify({
                 'emp_id': emp_id,
                 'fname': fname,
