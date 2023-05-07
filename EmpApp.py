@@ -133,17 +133,18 @@ def AddEmp():
 @app.route("/searchEmp", methods=['POST'])
 def searchEmp():
     emp_id = request.json['emp_id']
-    
+
     select_sql = "SELECT * FROM info WHERE emp_id = %s"
     cursor = db_conn.cursor()
-    
+
     try:
         cursor.execute(select_sql, (emp_id,))
         employee = cursor.fetchone()
-        
+
         if employee is None:
+            print("Employee not found")
             return jsonify({'error': 'Employee not found'})
-        
+
         # Extract the employee details from the database result
         emp_id = employee[0]
         fname = employee[1]
@@ -154,28 +155,38 @@ def searchEmp():
         emp_image_file_name_in_s3 = "emp-id-" + str(emp_id) + "_image_file"
 
         # Retrieve the image from S3 bucket
-        s3 = boto3.client('s3')
+        s3 = boto3.resource('s3')
         try:
             response = s3.get_object(Bucket=custombucket, Key=emp_image_file_name_in_s3)
-            image_url = response['PresignedUrl']  # Get the pre-signed URL for the image
+            image_data = response['Body'].read()
+
+            # Save the image temporarily on the server
+            temp_image_filename = "temp_image.jpg"
+            temp_image_path = "employee/static/images" + temp_image_filename  # Replace with the desired temporary image path
+            with open(temp_image_path, 'wb') as file:
+                file.write(image_data)
+
+            # Pass the temporary image path to the HTML input
+            return jsonify({
+                'emp_id': emp_id,
+                'fname': fname,
+                'ic': ic,
+                'email': email,
+                'location': location,
+                'payscale': payscale,
+                'image_path': temp_image_path
+            })
+
         except s3.exceptions.NoSuchKey:
-            image_url = None
-        
-        return jsonify({
-            'emp_id': emp_id,
-            'fname': fname,
-            'ic': ic,
-            'email': email,
-            'location': location,
-            'payscale': payscale,
-            'image_url': image_url
-        })
-    
+            print("Image file not found in S3 bucket.")
+            return jsonify({'error': 'Image file not found'})
+
     except Exception as e:
         return jsonify({'error': str(e)})
-    
+
     finally:
         cursor.close()
+
 
 @app.route("/updateEmp", methods=['POST'])
 def updateEmp():
