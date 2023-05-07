@@ -168,7 +168,7 @@ def searchEmp():
         cursor.close()
 
 @app.route("/updateEmp", methods=['POST'])
-def saveEmp():
+def updateEmp():
     emp_id = request.form['emp_id']
     fname = request.form['fname']
     ic = request.form['ic']
@@ -176,7 +176,7 @@ def saveEmp():
     location = request.form['location']
     payscale = request.form['payscale']
 
-    update_sql = "UPDATE employee SET fname = %s, ic = %s, email = %s, location = %s, payscale = %s WHERE emp_id = %s"
+    update_sql = "UPDATE info SET fname = %s, ic = %s, email = %s, location = %s, payscale = %s WHERE emp_id = %s"
     cursor = db_conn.cursor()
 
     try:
