@@ -169,12 +169,14 @@ def searchEmp():
 
 @app.route("/updateEmp", methods=['POST'])
 def updateEmp():
-    emp_id = request.form['emp_id']
-    fname = request.form['fname']
-    ic = request.form['ic']
-    email = request.form['email']
-    location = request.form['location']
-    payscale = request.form['payscale']
+    data = request.get_json()
+
+    emp_id = data['emp_id']
+    fname = data['fname']
+    ic = data['ic']
+    email = data['email']
+    location = data['location']
+    payscale = data['payscale']
 
     update_sql = "UPDATE info SET fname = %s, ic = %s, email = %s, location = %s, payscale = %s WHERE emp_id = %s"
     cursor = db_conn.cursor()
