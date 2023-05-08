@@ -184,6 +184,11 @@ a:focus {
 }
 
 /*end header section*/
+.carousel-inner .img-box img {
+  height: 183px;
+  object-fit: contain;
+}
+
 .slider_section {
   height: 90%;
   display: -webkit-box;
